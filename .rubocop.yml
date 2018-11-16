@@ -1,0 +1,59 @@
+# require: rubocop-rspec
+
+Style/Lambda:
+  EnforcedStyle: literal
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Metrics/LineLength:
+  Max: 120
+  AllowURI: true
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
+Documentation:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+
+Style/BlockDelimiters:
+  Exclude:
+    - "spec/**/*"
+
+Style/GlobalVars:
+  AllowedVariables:
+  - "$rails_rake_task"
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': '()'
+    '%W': '()'
+    '%i': '()'
+    '%I': '()'
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+Naming/PredicateName:
+  NamePrefixBlacklist:
+    - is_
+
+# Custom Checks
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*"
+
+AllCops:
+  Exclude:
+    - "*.gemspec"
