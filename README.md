@@ -58,7 +58,7 @@ expect(response.body).to match_snapshot("api/resources_index")
 expect(response.body).to match_snapshot("api/resources_index", format: :text)
 
 # Defining specific test dynamic attributes
-expect(response.body).to match_snapshot("api/resources_index", dyanmic_attributes: %w(confirmed_at relation_id))
+expect(response.body).to match_snapshot("api/resources_index", dynamic_attributes: %w(confirmed_at relation_id))
 ```
 
 ## Development
