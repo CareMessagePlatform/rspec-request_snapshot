@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspec-request_snapshot (0.1.0)
+    rspec-request_snapshot (0.1.1)
       rspec (~> 3.0)
 
 GEM
