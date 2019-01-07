@@ -59,6 +59,9 @@ expect(response.body).to match_snapshot("api/resources_index", format: :text)
 
 # Defining specific test dynamic attributes
 expect(response.body).to match_snapshot("api/resources_index", dynamic_attributes: %w(confirmed_at relation_id))
+
+# Ignoring order for certain arrays (this will ignore the ordering for the countries array inside the json response)
+expect(response.body).to match_snapshot("api/resources_index", ignore_order: %w(countries))
 ```
 
 ## Development
