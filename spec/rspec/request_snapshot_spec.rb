@@ -23,6 +23,18 @@ RSpec.describe Rspec::RequestSnapshot do
       it "does not match when snapshot file content is different" do
         expect({ sample: "other value" }.to_json).not_to match_snapshot("api/file")
       end
+
+      context "with nested nodes" do
+        it "matches snapshot from the file" do
+          json = { nested: { level: { sample: "value", sample2: "value2" } } }.to_json
+          expect(json).to match_snapshot("api/nested")
+        end
+
+        it "does not match when snapshot file content is different" do
+          json = { nested: { level: { sample: "value", sample3: "value2" } } }.to_json
+          expect(json).not_to match_snapshot("api/nested")
+        end
+      end
     end
   end
 
@@ -35,6 +47,18 @@ RSpec.describe Rspec::RequestSnapshot do
     it "ignores passed dynamic attributes" do
       json = { custom: "different value from snapshot" }.to_json
       expect(json).to match_snapshot("api/custom_dynamic_attributes", dynamic_attributes: %w(custom))
+    end
+  end
+
+  describe "ordering" do
+    it "ignores ordering for nodes that are in ignore_order" do
+      json = { id: 100, values: { ordered: [1, 2, 3], unordered: [8, 3, 7] } }.to_json
+      expect(json).to match_snapshot("api/ordering", ignore_order: %w(unordered))
+    end
+
+    it "does not match if ordering is different and we dont ignore" do
+      json = { id: 100, values: { ordered: [1, 2, 3], unordered: [8, 3, 7] } }.to_json
+      expect(json).not_to match_snapshot("api/ordering")
     end
   end
 
