@@ -1,0 +1,12 @@
+{
+  "objects": [
+    {
+      "id": 10,
+      "value": "value 10"
+    },
+    {
+      "id": 20,
+      "value": "value 20"
+    }
+  ]
+}

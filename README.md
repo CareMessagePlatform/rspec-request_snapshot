@@ -56,13 +56,37 @@ expect(response.body).to match_snapshot("api/resources_index")
 
 # Using plain text instead of parsing JSON
 expect(response.body).to match_snapshot("api/resources_index", format: :text)
+```
 
+#### Matcher options
+
+##### dynamic_attributes
+
+Using `dynamic_attributes` inline allows to ignore attributes for a specific snapshot.
+This is useful to ignore changing attributes, like `id` or `created_at`.
+Notice that **all** nodes matching those (nested or not) will be ignored. Usage:
+
+```ruby
 # Defining specific test dynamic attributes
 expect(response.body).to match_snapshot("api/resources_index", dynamic_attributes: %w(confirmed_at relation_id))
+```
 
+##### ignore_order
+
+It is possible to use the `ignore_order` inline option to mark which array nodes are unsorted and that elements position
+should not be taken into consideration.
+
+```ruby
 # Ignoring order for certain arrays (this will ignore the ordering for the countries array inside the json response)
 expect(response.body).to match_snapshot("api/resources_index", ignore_order: %w(countries))
 ```
+
+**Note:** `ignore_order` has some limitations:
+
+- If you are using it for arrays of objects/hashes (ie: `[{name: "name", value: "value"}, ...]`),
+it won't perform well depending on the array and hash size (number of keys)
+
+- Due to limitations on sorting array of objects/hashes, it might fail for cases where nested arrays are present
 
 ## Development
 
