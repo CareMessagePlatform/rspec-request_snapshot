@@ -86,7 +86,14 @@ expect(response.body).to match_snapshot("api/resources_index", ignore_order: %w(
 - If you are using it for arrays of objects/hashes (ie: `[{name: "name", value: "value"}, ...]`),
 it won't perform well depending on the array and hash size (number of keys)
 
-- Due to limitations on sorting array of objects/hashes, it might fail for cases where nested arrays are present
+- Due to limitations on sorting array of objects/hashes, `ignore_order` might fail for cases where the array elements
+don't have matching keys. For example, it is hard to sort the following arrays in a consistent way
+(even tho they have the same elements):
+
+```
+[{z: 2, a: 2}, {b: 5, z: 1}, {a: 2, b: 5}, {c: 10, a: 2, b: 3}, {d: 4, a: 1}, {d: 6, b: 1}, {a: [1, 3]}, {a: {a: 1}}]
+[{a: {a: 1}}, {z: 2, a: 2}, {b: 5, z: 1}, {d: 6, b: 1}, {a: 2, b: 5}, {c: 10, a: 2, b: 3}, {a: [1, 3]}, {d: 4, a: 1}]
+```
 
 ## Development
 
