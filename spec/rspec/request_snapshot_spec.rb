@@ -48,6 +48,11 @@ RSpec.describe Rspec::RequestSnapshot do
       json = { custom: "different value from snapshot" }.to_json
       expect(json).to match_snapshot("api/custom_dynamic_attributes", dynamic_attributes: %w(custom))
     end
+
+    it "ignores nodes inside object arrays" do
+      json = { objects: [{ id: 10, value: "value 10" }, { id: 22, value: "value 20" }] }.to_json
+      expect(json).to match_snapshot("api/array_dynamic_attributes", dynamic_attributes: %w(id))
+    end
   end
 
   describe "ordering" do
@@ -59,6 +64,56 @@ RSpec.describe Rspec::RequestSnapshot do
     it "does not match if ordering is different and we dont ignore" do
       json = { id: 100, values: { ordered: [1, 2, 3], unordered: [8, 3, 7] } }.to_json
       expect(json).not_to match_snapshot("api/ordering")
+    end
+
+    it "ignores ordering for object arrays" do
+      json = { objects: [{ id: 20, value: "value 20" }, { id: 10, value: "value 10" }] }.to_json
+      expect(json).to match_snapshot("api/ordering_objects", ignore_order: %w(objects))
+    end
+  end
+
+  describe "complex scenarios" do
+    let(:complex_json) do
+      {
+        data: {
+          books: [{ id: 22, name: "two" }, { id: 11, name: "one" }],
+          value: "value"
+        },
+        objects: [
+          {
+            pens: [
+              { id: 40, name: "one", prices: [1, 3, 2] },
+              { id: 50, name: "two", prices: [7, 5, 6] },
+            ],
+            computers: [
+              {
+                id: 10,
+                name: "computer two",
+                pieces: [
+                  { id: 10, name: "one", prices: [11, 12, 13] },
+                  { id: 20, name: "two", prices: [14, 15, 16] },
+                  { id: 30, name: "three", prices: [17, 18, 19] },
+                ]
+              },
+              {
+                id: 20,
+                name: "computer one",
+                pieces: [
+                  { id: 20, name: "one", prices: [1, 3, 2] },
+                  { id: 10, name: "two", prices: [4, 5, 6] },
+                  { id: 30, name: "three", prices: [9, 8, 7] },
+                ]
+              }
+            ]
+          }
+        ]
+      }.to_json
+    end
+
+    it "matches snapshot for a complex scenario" do
+      expect(complex_json).to match_snapshot(
+        "api/complex_json", dynamic_attributes: %w(id), ignore_order: %w(books computers prices)
+      )
     end
   end
 

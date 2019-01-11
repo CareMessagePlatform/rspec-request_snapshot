@@ -8,5 +8,9 @@ module Rspec::RequestSnapshot::Handlers
       @dynamic_attributes ||= RSpec.configuration.request_snapshots_dynamic_attributes |
                               Array(@options[:dynamic_attributes])
     end
+
+    def ignore_order
+      @ignore_order ||= @options[:ignore_order] || []
+    end
   end
 end

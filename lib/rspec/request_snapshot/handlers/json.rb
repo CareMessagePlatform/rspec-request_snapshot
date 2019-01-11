@@ -1,22 +1,10 @@
 class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers::Base
   def compare(actual, expected)
-    equal = true
-
-    actual.each do |key, value|
-      if actual[key].is_a?(Hash)
-        equal &= compare_hash(key, actual, expected)
-      elsif actual[key].is_a?(Array)
-        equal &= compare_array(key, actual, expected)
-      else
-        equal &= compare_value(key, actual, expected)
-      end
-    end
-
-    equal
+    actual == expected
   end
 
   def comparable(str)
-    JSON.parse(str)
+    deep_transform_values(JSON.parse(str).dup)
   end
 
   def writable(str)
@@ -25,21 +13,25 @@ class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers:
 
   private
 
-  def compare_hash(key, actual, expected)
-    actual[key].is_a?(Hash) && expected[key].is_a?(Hash) && compare(actual[key], expected[key])
-  end
+  def deep_transform_values(hash)
+    hash.each do |key, value|
+      if dynamic_attributes.include?(key)
+        hash[key] = "REPLACED"
+      end
 
-  def compare_array(key, actual, expected)
-    if actual[key].is_a?(Array) && expected[key].is_a?(Array)
-      if @options[:ignore_order] && @options[:ignore_order].include?(key)
-        actual[key].sort == expected[key].sort
-      else
-        actual[key] == expected[key]
+      if hash[key].is_a?(Hash)
+        deep_transform_values(hash[key])
+      end
+
+      if hash[key].is_a?(Array)
+        hash[key].each do |value|
+          deep_transform_values(value) if value.is_a?(Hash)
+        end
+
+        if ignore_order.include?(key)
+          hash[key].first.is_a?(Hash) ? hash[key].sort_by! { |e| e.keys.map { |k| e[k] } } : hash[key].sort!
+        end
       end
     end
-  end
-
-  def compare_value(key, actual ,expected)
-    dynamic_attributes.include?(key) ? true : actual[key] == expected[key]
   end
 end
