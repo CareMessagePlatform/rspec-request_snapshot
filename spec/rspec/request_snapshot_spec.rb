@@ -171,4 +171,84 @@ RSpec.describe Rspec::RequestSnapshot do
       )
     end
   end
+
+  # This is a super complex scenario that fails.
+  # Basically, it is very hard to test when we have arrays of hashes that are not consistent (ie: have the same keys)
+  xdescribe "complex scenarios with non matching hashes and arrays" do
+    let(:xcomplex_json_2) do
+      {
+        data: {
+          books: [{ id: 22, name: "two" }, { id: 11, name: "one" }],
+          value: "value"
+        },
+        objects: [
+          {
+            pens: [
+              { id: 40, name: "one", prices: [1, 3, 2] },
+              { id: 50, name: "two", prices: [7, 5, 6] },
+            ],
+            computers: [
+              {
+                id: 10,
+                name: "computer two",
+                value: "dyn",
+                pieces: [
+                  { id: 10, name: "one", prices: { value: "dyn" } },
+                  { id: 20, name: "two", prices: [
+                    { currency: "USD", value: "oth", ex: [{ d: 5, b: 1 }] },
+                    { currency: "BRL", value: "oth", ex: [{ a: { a: 1 }, b: 1 }] },
+                    { currency: "BRL", value: "oth", ex: [{ b: 1, a: { a: 2 } }] },
+                    { currency: "BRL", value: "oth", ex: [{ a: 1, d: 5 }] },
+                    { currency: "USD", value: "dyn", ex: [{ b: 1, a: { a: 1 } }] },
+                    { currency: "USD", value: "dyn", ex: [1, 2] },
+                    { currency: "BRL", value: "dyn", ex: [4, 5, 6] },
+                    { currency: "USD", value: "oth", ex: [{ a: 1, b: 3 }] },
+                    { currency: "BRL", value: "oth", ex: [{ b: 1, d: 6 }] },
+                    { currency: "BRL", value: "oth", ex: [{ b: 1, d: 6, value: 8 }] },
+                    { currency: "BRL", value: "dyn", ex: [{ b: 1, d: 6, value: 6 }] },
+
+                  ] },
+                  { id: 30, name: ["three"] },
+                  { id: 40, name: "two", prices: [
+                    { currency: "BRL", value: "dyn", ex: [{ g: 5, z: 1 }] },
+                    { currency: "USD", value: "oth", ex: [{ z: 1, g: 5 }] },
+                  ] },
+                  { id: 50, name: "two", prices: [
+                    { currency: "BRL", value: "dyn", ex: [{ z: 1, f: 5 }] },
+                    { currency: "USD", value: "oth", ex: [{ z: 1, e: 5 }] },
+                  ] }
+                ]
+              },
+              {
+                id: 30,
+                name: "computer one",
+                value: "oth",
+                pieces: [
+                  { id: 20, name: "one", prices: [1, 3, 2] },
+                  { id: 10, name: "two", prices: [4, 5, 6] },
+                  { id: 30, name: "three", prices: [9, 8, 7], extra: [5, 4, 3] },
+                ]
+              },
+              {
+                id: 20,
+                name: "computer one",
+                value: "dyn",
+                pieces: [
+                  { id: 20, name: "one", prices: [1, 2, 3] },
+                  { id: 10, name: "two", prices: [4, 5, 6] },
+                  { id: 30, name: "three", prices: [9, 7, 8], extra: [3, 4, 5] },
+                ]
+              }
+            ]
+          }
+        ]
+      }.to_json
+    end
+
+    it "matches snapshot for a complex scenario" do
+      expect(xcomplex_json_2).to match_snapshot(
+        "api/xcomplex_json_2", dynamic_attributes: %w(id value), ignore_order: %w(books computers prices ex)
+      )
+    end
+  end
 end
