@@ -3,7 +3,7 @@ RSpec.describe Rspec::RequestSnapshot do
     expect(Rspec::RequestSnapshot::VERSION).not_to be nil
   end
 
-  describe "snapshot machting" do
+  describe "snapshot matching" do
     context "when snapshot does not exist" do
       let(:snapshot_path) { File.join(Dir.pwd, RSpec.configuration.request_snapshots_dir, "temp.json") }
 
@@ -70,6 +70,16 @@ RSpec.describe Rspec::RequestSnapshot do
       json = { objects: [{ id: 20, value: "value 20" }, { id: 10, value: "value 10" }] }.to_json
       expect(json).to match_snapshot("api/ordering_objects", ignore_order: %w(objects))
     end
+
+    context "when setting ignore_order configuration" do
+      before { RSpec.configuration.request_snapshots_ignore_order = %w(unordered) }
+      after { RSpec.configuration.request_snapshots_ignore_order = %w() }
+
+      it "ignores ordering for nodes that are in ignore_order" do
+        json = { id: 100, values: { ordered: [1, 2, 3], unordered: [8, 3, 7] } }.to_json
+        expect(json).to match_snapshot("api/ordering")
+      end
+    end
   end
 
   describe "complex scenarios" do
@@ -83,7 +93,7 @@ RSpec.describe Rspec::RequestSnapshot do
           {
             pens: [
               { id: 40, name: "one", prices: [1, 3, 2] },
-              { id: 50, name: "two", prices: [7, 5, 6] },
+              { id: 50, name: "two", prices: [7, 5, 6] }
             ],
             computers: [
               {
@@ -92,7 +102,7 @@ RSpec.describe Rspec::RequestSnapshot do
                 pieces: [
                   { id: 10, name: "one", prices: [11, 12, 13] },
                   { id: 20, name: "two", prices: [14, 15, 16] },
-                  { id: 30, name: "three", prices: [17, 18, 19] },
+                  { id: 30, name: "three", prices: [17, 18, 19] }
                 ]
               },
               {
@@ -101,7 +111,7 @@ RSpec.describe Rspec::RequestSnapshot do
                 pieces: [
                   { id: 20, name: "one", prices: [1, 3, 2] },
                   { id: 10, name: "two", prices: [4, 5, 6] },
-                  { id: 30, name: "three", prices: [9, 8, 7] },
+                  { id: 30, name: "three", prices: [9, 8, 7] }
                 ]
               }
             ]
