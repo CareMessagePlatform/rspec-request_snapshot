@@ -1,0 +1,218 @@
+{
+  "data": {
+    "books": [
+      {
+        "id": 10,
+        "name": "one",
+        "samples": [
+          {
+            "id": 10,
+            "name": "one",
+            "prices": [
+              {
+                "currency": "BRL",
+                "value": 10
+              },
+              {
+                "currency": "USD",
+                "value": 20
+              },
+              {
+                "currency": "BRL",
+                "value": 20
+              },
+              {
+                "currency": "BRL",
+                "other": 20
+              },
+              {
+                "id": 40,
+                "currency": "BRL",
+                "other": 20
+              },
+              {
+                "id": 50,
+                "currency": "BRL",
+                "other": 20
+              },
+              {
+                "other": "BRL",
+                "value": 20
+              },
+              {
+                "other": "BRL",
+                "random": 20
+              }
+            ]
+          },
+          {
+            "id": 20,
+            "name": "two",
+            "prices": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "id": 30,
+            "name": "two",
+            "prices": [
+              3,
+              2,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "name": "two",
+        "samples": [
+          {
+            "id": 10,
+            "name": "same",
+            "prices": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "id": 20,
+            "name": "same",
+            "prices": [
+              3,
+              2,
+              1
+            ]
+          },
+          {
+            "id": 30,
+            "name": "same",
+            "prices": [
+              {
+                "a": 1
+              },
+              {
+                "b": 2
+              }
+            ]
+          },
+          {
+            "id": 40,
+            "name": "same",
+            "prices": [
+              {
+                "a": 1,
+                "b": 2
+              },
+              {
+                "c": 2
+              }
+            ]
+          },
+          {
+            "id": 50,
+            "name": "same",
+            "prices": [
+              {
+                "b": 1
+              },
+              {
+                "a": 1
+              }
+            ]
+          },
+          {
+            "id": 60,
+            "name": "same",
+            "prices": [
+              {
+                "b": 1
+              },
+              {
+                "a": 1,
+                "c": 3
+              }
+            ]
+          },
+          {
+            "id": 70,
+            "name": "same",
+            "prices": [
+              {
+                "id": 101
+              },
+              {
+                "a": 2
+              }
+            ]
+          },
+          {
+            "id": 80,
+            "name": "same",
+            "prices": [
+              {
+                "id": 102
+              },
+              {
+                "a": 1
+              }
+            ]
+          },
+          {
+            "id": 90,
+            "name": "same",
+            "prices": [
+              {
+                "id": 103
+              },
+              {
+                "a": 1
+              }
+            ]
+          },
+          {
+            "id": 100,
+            "name": "same",
+            "prices": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "id": 110,
+            "name": "same",
+            "prices": "A"
+          }
+        ]
+      },
+      {
+        "id": 30,
+        "name": "two",
+        "prices": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "id": 40,
+        "name": "two",
+        "prices": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": 40,
+        "name": "two",
+        "prices": [
+          "A"
+        ]
+      }
+    ]
+  }
+}

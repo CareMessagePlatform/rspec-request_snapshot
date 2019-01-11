@@ -122,4 +122,53 @@ RSpec.describe Rspec::RequestSnapshot do
       expect("My text test").to match_snapshot("api/text", format: :text)
     end
   end
+
+  # This is a complex scenario where the gem fails to correctly match a snapshot due to objects not being consistent
+  # inside arrays (ie: different keys)
+  xdescribe "complex scenarios with non matching hashes and arrays" do
+    let(:xcomplex_json) do
+      {
+        data: {
+          books: [
+            { id: 40, name: "two", prices: [1, 2] },
+            { id: 10, name: "one", samples: [
+              { id: 10, name: "one", prices: [
+                { other: "BRL", random: 20 },
+                { currency: "BRL", value: 10 },
+                { id: 40, currency: "BRL", other: 20 },
+                { currency: "BRL", other: 20 },
+                { currency: "USD", value: 20 },
+                { id: 50, currency: "BRL", other: 20 },
+                { other: "BRL", value: 20 },
+                { currency: "BRL", value: 20 }
+              ] },
+              { id: 20, name: "two", prices: [1, 2, 3] },
+              { id: 30, name: "two", prices: [3, 2, 1] }
+            ] },
+            { id: 40, name: "two", prices: ["A"] },
+            { id: 20, name: "two", samples: [
+              { id: 10, name: "same", prices: [2, 1, 3] },
+              { id: 20, name: "same", prices: [1, 3, 2] },
+              { id: 30, name: "same", prices: [{ a: 1 }, { b: 2 }] },
+              { id: 40, name: "same", prices: [{ c: 2 }, { b: 2, a: 1 }] },
+              { id: 50, name: "same", prices: [{ b: 1 }, { a: 1 }] },
+              { id: 60, name: "same", prices: [{ b: 1 }, { c: 3, a: 1 }] },
+              { id: 70, name: "same", prices: [{ a: 2 }, { id: 301 }] },
+              { id: 80, name: "same", prices: [{ a: 1 }, { id: 202 }] },
+              { id: 90, name: "same", prices: [{ id: 103 }, { a: 1 }] },
+              { id: 100, name: "same", prices: [1, 3, 2] },
+              { id: 110, name: "same", prices: "A" },
+            ] },
+            { id: 30, name: "two", prices: [3, 2, 4] }
+          ]
+        }
+      }.to_json
+    end
+
+    it "matches snapshot for a complex scenario" do
+      expect(xcomplex_json).to match_snapshot(
+        "api/xcomplex_json", dynamic_attributes: %w(id), ignore_order: %w(books prices)
+      )
+    end
+  end
 end
