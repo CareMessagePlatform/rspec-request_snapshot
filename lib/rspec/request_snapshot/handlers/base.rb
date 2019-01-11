@@ -10,7 +10,8 @@ module Rspec::RequestSnapshot::Handlers
     end
 
     def ignore_order
-      @ignore_order ||= @options[:ignore_order] || []
+      @ignore_order ||= RSpec.configuration.request_snapshots_ignore_order |
+                        Array(@options[:ignore_order])
     end
   end
 end

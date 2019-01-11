@@ -5,8 +5,9 @@ Gold master testing for RSpec API request specs. Make sure API behavior is not c
 By default, snapshots are stored under `spec/fixtures/snapshots` and should be code reviewed as well. The syntax is inspired by Jest.
 
 References:
-- [Gold Master Testing article by CodeClimate](https://codeclimate.com/blog/gold-master-testing/)
-- [Jest Snapshot Testing](https://jestjs.io/docs/en/snapshot-testing)
+
+* [Gold Master Testing article by CodeClimate](https://codeclimate.com/blog/gold-master-testing/)
+* [Jest Snapshot Testing](https://jestjs.io/docs/en/snapshot-testing)
 
 ## Installation
 
@@ -37,6 +38,10 @@ RSpec.configure do |config|
   # The json attributes that you want to ignore when comparing snapshots
   # Default value is [id, created_at, updated_at]
   config.request_snapshots_dynamic_attributes = %w(id created_at updated_at)
+
+  # The json attributes that ignore order when comparing nodes
+  # Default value is []
+  config.request_snapshots_ignore_order = %w(array_node)
 end
 ```
 
