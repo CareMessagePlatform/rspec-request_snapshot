@@ -7,7 +7,7 @@ module Rspec::RequestSnapshot
     match do |actual|
       @options = options || {}
 
-      snapshot_file_path = File.join(RSpec.configuration.request_snapshots_dir, "#{snapshot_name}.json")
+      snapshot_file_path = File.join(RSpec.configuration.request_snapshots_dir, "#{snapshot_name}.#{format}")
 
       FileUtils.mkdir_p(File.dirname(snapshot_file_path)) unless Dir.exist?(File.dirname(snapshot_file_path))
 
