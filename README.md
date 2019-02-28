@@ -42,6 +42,10 @@ RSpec.configure do |config|
   # The json attributes that ignore order when comparing nodes
   # Default value is []
   config.request_snapshots_ignore_order = %w(array_node)
+
+  # The default format to use, other formats must be specified using the :format option
+  # Default value is :json
+  config.request_snapshots_default_format = :json
 end
 ```
 
