@@ -1,0 +1,29 @@
+engines:
+  rubocop:
+    enabled: true
+    channel: rubocop-0-52
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+      concurrency: 1
+    exclude_paths:
+      - /spec/**/*
+  bundler-audit:
+    enabled: true
+  flog:
+    enabled: true
+    config:
+      all: false
+      threshold: 0.6
+    exclude_paths:
+      - /spec/**/*
+ratings:
+   paths:
+   - Gemfile.lock
+   - "**.rb"
+exclude_paths:
+  - /vendor/**/*
+  - /db/**/*
+  - /bin/**/*
