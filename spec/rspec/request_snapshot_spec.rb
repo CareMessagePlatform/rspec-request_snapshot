@@ -128,8 +128,23 @@ RSpec.describe Rspec::RequestSnapshot do
   end
 
   describe "format" do
+    let(:sample_text) { "My text test" }
+
     it "matches snapshot with text format" do
-      expect("My text test").to match_snapshot("api/text", format: :text)
+      expect(sample_text).to match_snapshot("api/text", format: :text)
+    end
+
+    it "defaults to json format when not specified" do
+      expect(RSpec.configuration.request_snapshots_default_format).to eq :json
+    end
+
+    context "when the configured format is set to :text" do
+      before { RSpec.configuration.request_snapshots_default_format = :text }
+      after { RSpec.configuration.request_snapshots_default_format = :json }
+
+      it "matches text without passing the format argument" do
+        expect(sample_text).to match_snapshot("api/text")
+      end
     end
   end
 end
