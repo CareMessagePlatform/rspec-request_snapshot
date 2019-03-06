@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Rspec::RequestSnapshot
   RSpec::Matchers.define :match_snapshot do |snapshot_name, options|
     attr_reader :actual, :expected, :options
@@ -36,11 +38,11 @@ module Rspec::RequestSnapshot
     def handler
       @handler ||= begin
         handler_class = case format
-        when :text
-          Handlers::Text
-        when :json
-          Handlers::JSON
-        end
+                        when :text
+                          Handlers::Text
+                        when :json
+                          Handlers::JSON
+                        end
         handler_class.new(@options)
       end
     end
