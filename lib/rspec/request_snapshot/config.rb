@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Rspec::RequestSnapshot
   RSpec.configure do |config|
     config.add_setting :request_snapshots_dir, default: "spec/fixtures/snapshots"

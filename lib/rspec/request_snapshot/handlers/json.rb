@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers::Base
   def compare(actual, expected)
     actual == expected
@@ -14,24 +16,30 @@ class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers:
   private
 
   def deep_transform_values(hash)
-    hash.each do |key, value|
+    hash.each_key do |key|
       if dynamic_attributes.include?(key)
         hash[key] = "REPLACED"
+        next
       end
 
       if hash[key].is_a?(Hash)
         deep_transform_values(hash[key])
+        next
       end
 
-      if hash[key].is_a?(Array)
-        hash[key].each do |value|
-          deep_transform_values(value) if value.is_a?(Hash)
-        end
-
-        if ignore_order.include?(key)
-          hash[key].first.is_a?(Hash) ? hash[key].sort_by! { |e| e.keys.map { |k| e[k] } } : hash[key].sort!
-        end
-      end
+      deep_transform_array(hash, key) if hash[key].is_a?(Array)
     end
+  end
+
+  def deep_transform_array(hash, key)
+    hash[key].each do |value|
+      deep_transform_values(value) if value.is_a?(Hash)
+    end
+
+    sort_elements(hash, key) if ignore_order.include?(key)
+  end
+
+  def sort_elements(hash, key)
+    hash[key].first.is_a?(Hash) ? hash[key].sort_by! { |e| e.keys.map { |k| e[k] } } : hash[key].sort!
   end
 end

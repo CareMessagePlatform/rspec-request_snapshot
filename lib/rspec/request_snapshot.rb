@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rspec"
 require "rspec/request_snapshot/version"
 require "rspec/request_snapshot/config"

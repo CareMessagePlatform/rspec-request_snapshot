@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Rspec::RequestSnapshot::Handlers
   class Base
     def initialize(options = {})

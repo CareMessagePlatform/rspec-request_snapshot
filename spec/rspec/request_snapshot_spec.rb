@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rspec::RequestSnapshot do
   it "has a version number" do
     expect(Rspec::RequestSnapshot::VERSION).not_to be nil

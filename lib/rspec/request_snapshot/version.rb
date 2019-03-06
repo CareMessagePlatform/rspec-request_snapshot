@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
+# rubocop:disable Style/ClassAndModuleChildren
 module Rspec
   module RequestSnapshot
-    VERSION = "0.4.0".freeze
+    VERSION = "0.4.0"
   end
 end
+# rubocop:enable Style/ClassAndModuleChildren
