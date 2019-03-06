@@ -3,7 +3,7 @@
 # rubocop:disable Style/ClassAndModuleChildren
 module Rspec
   module RequestSnapshot
-    VERSION = "0.4.0"
+    VERSION = "0.5.0"
   end
 end
 # rubocop:enable Style/ClassAndModuleChildren
