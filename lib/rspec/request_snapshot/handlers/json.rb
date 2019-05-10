@@ -18,7 +18,7 @@ class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers:
   def deep_transform_values(hash)
     hash.each_key do |key|
       if dynamic_attributes.include?(key)
-        hash[key] = "REPLACED"
+        handle_dynamic_attribute(hash, key)
         next
       end
 
@@ -41,5 +41,13 @@ class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers:
 
   def sort_elements(hash, key)
     hash[key].first.is_a?(Hash) ? hash[key].sort_by! { |e| e.keys.map { |k| e[k] } } : hash[key].sort!
+  end
+
+  def handle_dynamic_attribute(hash, key)
+    if dynamic_attributes_with_regex.key?(key)
+      hash[key] = dynamic_attributes_with_regex[key] if dynamic_attributes_with_regex[key].match(hash[key].to_s)
+    else
+      hash[key] = "IGNORED"
+    end
   end
 end

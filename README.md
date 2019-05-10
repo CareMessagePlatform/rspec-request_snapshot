@@ -80,6 +80,19 @@ Notice that **all** nodes matching those (nested or not) will be ignored. Usage:
 expect(response.body).to match_snapshot("api/resources_index", dynamic_attributes: %w(confirmed_at relation_id))
 ```
 
+##### dynamic_attributes with regex
+
+Sometimes you don't want to fully ignore an attribute. For example, you want to make sure
+that `generated_id` is present and following a given pattern, but that attribute can change
+randonly, use `dynamic_attributes` with object/regex notation:
+
+```ruby
+# Example generated_id: ABC-001
+expect(response.body).to match_snapshot("api/resources_index", dynamic_attributes: [{ generated_id: /^\w{3}-\d{3}$/ }])
+```
+
+**Note:** Partial matches are also possible, so use the start/end of line characters for a strict match
+
 ##### ignore_order
 
 It is possible to use the `ignore_order` inline option to mark which array nodes are unsorted and that elements position
