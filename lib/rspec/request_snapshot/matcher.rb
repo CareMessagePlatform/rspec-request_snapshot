@@ -32,7 +32,7 @@ module Rspec::RequestSnapshot
     end
 
     def format
-      @options[:format]&.to_sym || RSpec.configuration.request_snapshots_default_format
+      (@options[:format] && @options[:format].to_sym) || RSpec.configuration.request_snapshots_default_format
     end
 
     def handler

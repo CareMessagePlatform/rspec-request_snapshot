@@ -42,7 +42,7 @@ RSpec.describe Rspec::RequestSnapshot do
 
   describe "dynamic attributes" do
     it "ignores default dynamic attributes" do
-      json = { id: 99, created_at: false, updated_at: Time.now }.to_json
+      json = { id: 99, created_at: false, updated_at: Time.now.iso8601 }.to_json
       expect(json).to match_snapshot("api/dynamic_attributes")
     end
 
@@ -54,6 +54,23 @@ RSpec.describe Rspec::RequestSnapshot do
     it "ignores nodes inside object arrays" do
       json = { objects: [{ id: 10, value: "value 10" }, { id: 22, value: "value 20" }] }.to_json
       expect(json).to match_snapshot("api/array_dynamic_attributes", dynamic_attributes: %w(id))
+    end
+  end
+
+  describe "regex dynamic attributes" do
+    it "matches with matching regex" do
+      json = { id: 99, created_at: false, updated_at: Time.now }.to_json
+      expect(json).to match_snapshot("api/dynamic_attributes", dynamic_attributes: [{ id: /^\d{2}$/ }])
+    end
+
+    it "matches with partial matching regex" do
+      json = { id: 999, created_at: false, updated_at: Time.now }.to_json
+      expect(json).to match_snapshot("api/dynamic_attributes", dynamic_attributes: [{ id: /\d{2}/ }])
+    end
+
+    it "fails with not matching regex" do
+      json = { id: 100, created_at: false, updated_at: Time.now }.to_json
+      expect(json).not_to match_snapshot("api/dynamic_attributes", dynamic_attributes: [{ id: /^\d{2}$/ }])
     end
   end
 
