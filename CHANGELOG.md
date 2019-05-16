@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.6.1]
+
+### Fixed
+- Fixed bug where using ignore_order for nodes with boolean values would raise an exception
+
 ## [v0.6.0]
 
 ### Fixed
