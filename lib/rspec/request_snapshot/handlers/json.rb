@@ -40,7 +40,7 @@ class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers:
   end
 
   def sort_elements(hash, key)
-    hash[key].first.is_a?(Hash) ? hash[key].sort_by! { |e| e.keys.map { |k| e[k] } } : hash[key].sort!
+    hash[key].first.is_a?(Hash) ? hash[key].sort_by! { |e| e.keys.map { |k| e[k] } } : hash[key].sort_by!(&:to_s)
   end
 
   def handle_dynamic_attribute(hash, key)

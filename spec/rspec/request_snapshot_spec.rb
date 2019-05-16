@@ -102,47 +102,65 @@ RSpec.describe Rspec::RequestSnapshot do
   end
 
   describe "complex scenarios" do
-    let(:complex_json) do
-      {
-        data: {
-          books: [{ id: 22, name: "two" }, { id: 11, name: "one" }],
-          value: "value"
-        },
-        objects: [
-          {
-            pens: [
-              { id: 40, name: "one", prices: [1, 3, 2] },
-              { id: 50, name: "two", prices: [7, 5, 6] }
-            ],
-            computers: [
-              {
-                id: 10,
-                name: "computer two",
-                pieces: [
-                  { id: 10, name: "one", prices: [11, 12, 13] },
-                  { id: 20, name: "two", prices: [14, 15, 16] },
-                  { id: 30, name: "three", prices: [17, 18, 19] }
-                ]
-              },
-              {
-                id: 20,
-                name: "computer one",
-                pieces: [
-                  { id: 20, name: "one", prices: [1, 3, 2] },
-                  { id: 10, name: "two", prices: [4, 5, 6] },
-                  { id: 30, name: "three", prices: [9, 8, 7] }
-                ]
-              }
-            ]
-          }
-        ]
-      }.to_json
+    describe "json with nested dynamic attributes and ordering" do
+      let(:complex_json) do
+        {
+          data: {
+            books: [{ id: 22, name: "two" }, { id: 11, name: "one" }],
+            value: "value"
+          },
+          objects: [
+            {
+              pens: [
+                { id: 40, name: "one", prices: [1, 3, 2] },
+                { id: 50, name: "two", prices: [7, 5, 6] }
+              ],
+              computers: [
+                {
+                  id: 10,
+                  name: "computer two",
+                  pieces: [
+                    { id: 10, name: "one", prices: [11, 12, 13] },
+                    { id: 20, name: "two", prices: [14, 15, 16] },
+                    { id: 30, name: "three", prices: [17, 18, 19] }
+                  ]
+                },
+                {
+                  id: 20,
+                  name: "computer one",
+                  pieces: [
+                    { id: 20, name: "one", prices: [1, 3, 2] },
+                    { id: 10, name: "two", prices: [4, 5, 6] },
+                    { id: 30, name: "three", prices: [9, 8, 7] }
+                  ]
+                }
+              ]
+            }
+          ]
+        }.to_json
+      end
+
+      it "matches snapshot for a complex scenario" do
+        expect(complex_json).to match_snapshot(
+          "api/complex_json", dynamic_attributes: %w(id), ignore_order: %w(books computers prices)
+        )
+      end
     end
 
-    it "matches snapshot for a complex scenario" do
-      expect(complex_json).to match_snapshot(
-        "api/complex_json", dynamic_attributes: %w(id), ignore_order: %w(books computers prices)
-      )
+    describe "json with ignore order for arrays with booleans and mixed data" do
+      let(:complex_json) do
+        {
+          data: {
+            items: [false, 8, true, "something", "3", 1]
+          }
+        }.to_json
+      end
+
+      it "matches snapshot for a scenario with complex ordering" do
+        expect(complex_json).to match_snapshot(
+          "api/complex_json_ordering", dynamic_attributes: %w(id), ignore_order: %w(items)
+        )
+      end
     end
   end
 
