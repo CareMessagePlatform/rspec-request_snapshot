@@ -6,7 +6,7 @@ class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers:
   end
 
   def comparable(str)
-    deep_transform_values(JSON.parse(str).dup)
+    deep_transform_json(JSON.parse(str).dup)
   end
 
   def writable(str)
@@ -15,7 +15,18 @@ class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers:
 
   private
 
-  def deep_transform_values(hash)
+  def deep_transform_json(json)
+    case json
+    when Array
+      deep_transform_array(json)
+    when Hash
+      deep_transform_hash(json)
+    else
+      json
+    end
+  end
+
+  def deep_transform_hash(hash)
     hash.each_key do |key|
       if dynamic_attributes.include?(key)
         handle_dynamic_attribute(hash, key)
@@ -23,20 +34,26 @@ class Rspec::RequestSnapshot::Handlers::JSON < Rspec::RequestSnapshot::Handlers:
       end
 
       if hash[key].is_a?(Hash)
-        deep_transform_values(hash[key])
+        deep_transform_hash(hash[key])
         next
       end
 
-      deep_transform_array(hash, key) if hash[key].is_a?(Array)
+      deep_transform_hash_array(hash, key) if hash[key].is_a?(Array)
     end
   end
 
-  def deep_transform_array(hash, key)
+  def deep_transform_hash_array(hash, key)
     hash[key].each do |value|
-      deep_transform_values(value) if value.is_a?(Hash)
+      deep_transform_hash(value) if value.is_a?(Hash)
     end
 
     sort_elements(hash, key) if ignore_order.include?(key)
+  end
+
+  def deep_transform_array(array)
+    array.map do |element|
+      deep_transform_json(element)
+    end
   end
 
   def sort_elements(hash, key)
