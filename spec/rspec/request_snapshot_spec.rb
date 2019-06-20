@@ -184,4 +184,21 @@ RSpec.describe Rspec::RequestSnapshot do
       end
     end
   end
+
+  describe "array json" do
+    it "matches snapshot for array of hashes" do
+      json = [{ id: 11, name: "A" }, { id: 21, name: "B" }].to_json
+      expect(json).to match_snapshot("api/array")
+    end
+
+    it "matches snapshot for array of strings" do
+      json = %w(A B).to_json
+      expect(json).to match_snapshot("api/array_strings")
+    end
+
+    it "matches snapshot for array of arrays" do
+      json = [[{ id: 31, name: "A" }], [{ id: 41, name: "B" }]].to_json
+      expect(json).to match_snapshot("api/array_arrays")
+    end
+  end
 end
