@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.6.2]
+
+### Fixed
+- Fixed issue where array responses would fail to match snapshots
+
 ## [v0.6.1]
 
 ### Fixed
