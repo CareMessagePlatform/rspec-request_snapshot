@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.7.2]
+
+### Fixed
+- Fixed issue where updated snapshots would have missing nodes
+
 ## [v0.7.1]
 
 ### Fixed
