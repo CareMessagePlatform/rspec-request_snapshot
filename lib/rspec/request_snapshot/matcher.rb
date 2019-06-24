@@ -14,6 +14,8 @@ module Rspec::RequestSnapshot
       FileUtils.mkdir_p(File.dirname(snapshot_file_path)) unless Dir.exist?(File.dirname(snapshot_file_path))
 
       if File.exist?(snapshot_file_path) && !(ENV["REPLACE_SNAPSHOTS"] == "true")
+        updater.update(actual, snapshot_file_path) if ENV["CONSERVATIVE_UPDATE_SNAPSHOTS"] == "true"
+
         @actual = handler.comparable(actual)
         @expected = handler.comparable(File.read(snapshot_file_path))
 
@@ -44,6 +46,16 @@ module Rspec::RequestSnapshot
                           Handlers::JSON
                         end
         handler_class.new(@options)
+      end
+    end
+
+    def updater
+      @updater ||= begin
+        convervative_updater_class = case format
+                                     when :json
+                                       Updaters::JSON
+                                     end
+        convervative_updater_class.new(@options)
       end
     end
   end

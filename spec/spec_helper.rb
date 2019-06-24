@@ -5,6 +5,7 @@ SimpleCov.start
 
 require "bundler/setup"
 require "rspec/request_snapshot"
+require "climate_control"
 
 RSpec.configure do |config|
   # Disable RSpec exposing methods globally on `Module` and `main`
