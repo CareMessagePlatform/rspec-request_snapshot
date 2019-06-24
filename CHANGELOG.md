@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.7.1]
+
+### Fixed
+- Fixed issue where updated snapshots would not use pretty format
+
 ## [v0.7.0]
 
 ### Added

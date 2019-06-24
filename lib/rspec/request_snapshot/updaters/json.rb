@@ -7,7 +7,7 @@ class Rspec::RequestSnapshot::Updaters::JSON < Rspec::RequestSnapshot::Updaters:
 
     deep_update(expected_json, stored_json)
 
-    File.write(snapshot_file_path, stored_json.to_json)
+    File.write(snapshot_file_path, JSON.pretty_generate(stored_json))
   end
 
   private

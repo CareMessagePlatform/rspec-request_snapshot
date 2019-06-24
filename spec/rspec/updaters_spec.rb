@@ -23,7 +23,7 @@ RSpec.describe Rspec::RequestSnapshot do
       let(:json) { { object: { book: { id: 10, name: "Name changed" } } }.to_json }
 
       it "updates snapshot node value" do
-        expected_json = { object: { book: { id: 1, name: "Name changed" } } }.to_json
+        expected_json = JSON.pretty_generate(object: { book: { id: 1, name: "Name changed" } })
         expect(File.read(snapshot_path)).to eq(expected_json)
       end
     end
@@ -33,7 +33,7 @@ RSpec.describe Rspec::RequestSnapshot do
       let(:json) { { object: { book: { id: 10, name: "Name changed", value: 29.99 } } }.to_json }
 
       it "updates snapshot adding the new node" do
-        expected_json = { object: { book: { id: 1, name: "Name changed", value: 29.99 } } }.to_json
+        expected_json = JSON.pretty_generate(object: { book: { id: 1, name: "Name changed", value: 29.99 } })
         expect(File.read(snapshot_path)).to eq(expected_json)
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe Rspec::RequestSnapshot do
       let(:json) { { object: { book: { id: 10, name: "Name changed" } } }.to_json }
 
       it "updates snapshot adding the new node" do
-        expected_json = { object: { book: { id: 1, name: "Name changed" } } }.to_json
+        expected_json = JSON.pretty_generate(object: { book: { id: 1, name: "Name changed" } })
         expect(File.read(snapshot_path)).to eq(expected_json)
       end
     end
@@ -61,10 +61,10 @@ RSpec.describe Rspec::RequestSnapshot do
       }
 
       it "updates snapshot array node values" do
-        expected_json = {
+        expected_json = JSON.pretty_generate(
           objects: [{ id: 1, name: "1st name", value: 29.99 }, { id: 2, name: "2nd name", value: 10.00 }],
           meta: { success: true }
-        }.to_json
+        )
         expect(File.read(snapshot_path)).to eq(expected_json)
       end
     end
@@ -82,10 +82,10 @@ RSpec.describe Rspec::RequestSnapshot do
       }
 
       it "updates snapshot by adding node" do
-        expected_json = {
+        expected_json = JSON.pretty_generate(
           objects: [{ id: 1, name: "1st name", value: 29.99 }, { id: 20, name: "2nd name", value: 10.00 }],
           meta: { success: true }
-        }.to_json
+        )
         expect(File.read(snapshot_path)).to eq(expected_json)
       end
     end
@@ -102,10 +102,10 @@ RSpec.describe Rspec::RequestSnapshot do
       }
 
       it "updates snapshot by removing node" do
-        expected_json = {
+        expected_json = JSON.pretty_generate(
           objects: [{ id: 1, name: "1st name", value: 29.99 }],
           meta: { success: true }
-        }.to_json
+        )
         expect(File.read(snapshot_path)).to eq(expected_json)
       end
     end
