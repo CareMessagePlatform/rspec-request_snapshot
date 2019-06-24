@@ -57,6 +57,13 @@ If you need to replace snapshots, run the specs with:
 
     REPLACE_SNAPSHOTS=true bundle exec rspec
 
+If you only need to add, remove or replace data without replacing the whole snapshot:
+
+    CONSERVATIVE_UPDATE_SNAPSHOTS=true bundle exec rspec
+
+**Note:** Conservative update will not work along with ignore_order option. It should only be used when there is
+no major changes in the snapshots that will be updated.
+
 ### Matcher
 
 ```ruby

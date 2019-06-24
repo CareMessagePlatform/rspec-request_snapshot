@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.7.0]
+
+### Added
+- Added CONSERVATIVE_UPDATE_SNAPSHOTS flag
+
 ## [v0.6.2]
 
 ### Fixed

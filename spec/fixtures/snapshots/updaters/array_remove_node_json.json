@@ -1,0 +1,17 @@
+{
+  "objects": [
+    {
+      "id": 1,
+      "name": "First name",
+      "value": 29.99
+    },
+    {
+      "id": 2,
+      "name": "Second name",
+      "value": 10.0
+    }
+  ],
+  "meta": {
+    "success": true
+  }
+}

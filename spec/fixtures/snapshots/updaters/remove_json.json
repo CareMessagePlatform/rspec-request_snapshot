@@ -1,0 +1,9 @@
+{
+  "object": {
+    "book": {
+      "id": 1,
+      "name": "Name",
+      "value": 29.99
+    }
+  }
+}

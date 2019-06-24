@@ -1,0 +1,12 @@
+{
+  "objects": [
+    {
+      "id": 1,
+      "name": "First name",
+      "value": 29.99
+    }
+  ],
+  "meta": {
+    "success": true
+  }
+}
