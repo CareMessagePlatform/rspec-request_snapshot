@@ -25,13 +25,13 @@ class Rspec::RequestSnapshot::Updaters::JSON < Rspec::RequestSnapshot::Updaters:
     keys = expected_json.keys | stored_json.keys
     keys.each do |key|
       # If key present on expected and not stored, add it to stored
-      if stored_json[key].nil?
+      unless stored_json.key?(key)
         stored_json[key] = expected_json[key]
         next
       end
 
       # If key only present on stored, remove it from stored
-      if expected_json[key].nil?
+      unless expected_json.key?(key)
         stored_json.delete(key)
         next
       end

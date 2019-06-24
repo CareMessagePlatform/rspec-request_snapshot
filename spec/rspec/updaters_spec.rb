@@ -28,6 +28,18 @@ RSpec.describe Rspec::RequestSnapshot do
       end
     end
 
+    context "when updating hash elements that contain nil on actual" do
+      let(:snapshot_name) { "updaters/null_json" }
+      let(:json) { { object: { book: { id: 10, name: "Name changed", created_at: nil } } }.to_json }
+
+      it "updates snapshot node value" do
+        expected_json = JSON.pretty_generate(
+          object: { book: { id: 1, name: "Name changed", created_at: "2019-06-10T12:25:20-07:00" } }
+        )
+        expect(File.read(snapshot_path)).to eq(expected_json)
+      end
+    end
+
     context "when adding a new node" do
       let(:snapshot_name) { "updaters/add_json" }
       let(:json) { { object: { book: { id: 10, name: "Name changed", value: 29.99 } } }.to_json }
