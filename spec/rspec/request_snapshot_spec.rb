@@ -9,11 +9,24 @@ RSpec.describe Rspec::RequestSnapshot do
     context "when snapshot does not exist" do
       let(:snapshot_path) { File.join(Dir.pwd, RSpec.configuration.request_snapshots_dir, "temp.json") }
 
-      after { FileUtils.rm(snapshot_path) }
+      after { FileUtils.rm_f(snapshot_path) }
 
       it "creates a new snapshot file" do
         expect({ a: 1 }.to_json).to match_snapshot("temp")
         expect(File.exist?(snapshot_path)).to be_truthy
+      end
+
+      context "when BLOCK_CREATE_SNAPSHOTS flag is true" do
+        around do |example|
+          ClimateControl.modify BLOCK_CREATE_SNAPSHOTS: "true" do
+            example.run
+          end
+        end
+
+        it "does not create a new snapshot file" do
+          expect({ a: 1 }.to_json).not_to match_snapshot("temp")
+          expect(File.exist?(snapshot_path)).to be_falsy
+        end
       end
     end
 

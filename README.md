@@ -64,6 +64,10 @@ If you only need to add, remove or replace data without replacing the whole snap
 **Note:** Conservative update will not work along with ignore_order option. It should only be used when there is
 no major changes in the snapshots that will be updated.
 
+If you want tests to fail in case a snapshot file does not exist (ie: when running on a CI):
+
+    BLOCK_CREATE_SNAPSHOTS=true bundle exec rspec
+
 ### Matcher
 
 ```ruby
