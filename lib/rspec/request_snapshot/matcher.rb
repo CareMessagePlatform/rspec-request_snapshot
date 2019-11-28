@@ -21,6 +21,7 @@ module Rspec::RequestSnapshot
 
         handler.compare(@actual, @expected)
       else
+        return false if ENV["BLOCK_CREATE_SNAPSHOTS"] == "true"
         File.write(snapshot_file_path, handler.writable(actual))
         true
       end
