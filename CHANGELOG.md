@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.7.3]
+
+### Added
+- Added BLOCK_CREATE_SNAPSHOTS flag
+
 ## [v0.7.2]
 
 ### Fixed
