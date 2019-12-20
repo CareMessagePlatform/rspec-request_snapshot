@@ -1,0 +1,12 @@
+- terms:
+  - wip
+  - Work in progress
+  - 🚧
+  locations: title
+- terms:
+  - qa needed
+  - data migration
+  - need simultaneous merge
+  - waiting for code review
+  - waiting for page tests
+  locations: label_name
