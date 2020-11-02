@@ -3,6 +3,9 @@ jobs:
   build:
     docker:
        - image: circleci/ruby:2.1
+         auth:
+          username: caremessagehub
+          password: $DOCKERHUB_PASSWORD
 
     working_directory: ~/repo
 
@@ -41,3 +44,11 @@ jobs:
       - run:
           name: Report after build to CodeClimate
           command: ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build:
+          context:
+            - docker-credential
