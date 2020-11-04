@@ -1,0 +1,20 @@
+QA Needed:
+  - '**'
+  - '.*'
+  - '.*/**'
+Waiting for code review:
+  - '**'
+  - '.*'
+  - '.*/**'
+Waiting for CI to pass:
+  - '**'
+  - '.*'
+  - '.*/**'
+Waiting for Code Climate to pass:
+  - '**'
+  - '.*'
+  - '.*/**'
+Waiting for Code Coverage to pass:
+  - '**'
+  - '.*'
+  - '.*/**'
